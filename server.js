@@ -1,6 +1,5 @@
 import express from "express";
 import multer from "multer";
-import { Storage as localStorage } from "./utils/storage.js";
 import path from "path";
 import { v4 as uuid } from "uuid";
 
@@ -12,7 +11,6 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-const imagesStore = new localStorage("store", "images", "json");
 
 router.use(express.json());
 router.use(express.static("files"));
@@ -44,7 +42,6 @@ router.get("/image/api/:fileName", (req, res) => {
   return res.sendFile(path.resolve(`files/${fileName}`));
 });
 
-router.listen(process.env.PORT || 8124, () =>
-  console.log("Server listening on 8124")
-);
+const port = process.env.PORT || 8124;
 
+router.listen(port, () => console.log("Server listening on " + port));
